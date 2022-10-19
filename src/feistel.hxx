@@ -59,4 +59,11 @@ namespace feistel {
 		std::reverse(std::begin(keys), std::end(keys));
 		return encrypt(block, f, keys);
 	}
+
+
+
+	template<std::unsigned_integral T>
+	T f_xor(T key, T r) {
+		return key ^ r;
+	}
 }
