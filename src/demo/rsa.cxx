@@ -2,7 +2,9 @@
 #include <iostream>
 
 int main() {
-	const auto [pri_key, pub_key] = rsa::generate_keys<std::uint64_t>(7, 11);
+	const auto p = 7;
+	const auto q = 11;
+	const auto [pri_key, pub_key] = rsa::generate_keys<std::uint64_t>(p, q);
 	const auto original = 42;
 	const auto encrypted = rsa::encrypt<std::uint64_t>(original, pub_key);
 	const auto decrypted = rsa::decrypt<std::uint64_t>(encrypted, pri_key);
