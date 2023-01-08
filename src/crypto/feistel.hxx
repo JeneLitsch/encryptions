@@ -20,9 +20,9 @@ namespace feistel {
 	std::array<Block, 2> split_block(Block block) {
 		static constexpr auto BLOCK_SIZE = std::numeric_limits<Block>::digits;
 		static constexpr auto MASK = create_lower_mask<Block>(BLOCK_SIZE / 2);
-		Block l = block >> BLOCK_SIZE / 2;
-		Block r = block & MASK;
-		return {l, r};
+		return {
+			static_cast<Block>(block >> BLOCK_SIZE / 2),
+			static_cast<Block>(block & MASK)};
 	}
 
 
@@ -40,9 +40,19 @@ namespace feistel {
 		static constexpr auto BLOCK_SIZE = std::numeric_limits<Block>::digits;
 		auto [l, r] = split_block(block);
 
+		std::cout 
+			<< "L=" << std::bitset<BLOCK_SIZE>{l} << " "
+			<< "R=" << std::bitset<BLOCK_SIZE>{r} << "\n";
+
 		for(const auto & key : keys) {
-			l ^= f(key, r);
+			auto x = f(key, r);
+			l ^= x;
 			std::swap(l, r);
+			std::cout 
+				<< "L=" << std::bitset<BLOCK_SIZE>{l} << " "
+				<< "R=" << std::bitset<BLOCK_SIZE>{r} << " "
+				<< "F=" << std::bitset<BLOCK_SIZE>{x} << " "
+				<< "K=" << std::bitset<BLOCK_SIZE>{key} << "\n";
 		}
 
 		std::swap(l,r);

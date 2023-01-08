@@ -1,2 +1,8 @@
-cmake . -D CMAKE_CXX_COMPILER=clang++-14 -D param=linux-release
+cmake . -D CMAKE_CXX_COMPILER=clang++ -B ./build
+cd build
 make
+cd ..
+
+mkdir ./bin
+mv ./build/bin/feistel ./bin/feistel
+mv ./build/bin/rsa ./bin/rsa
