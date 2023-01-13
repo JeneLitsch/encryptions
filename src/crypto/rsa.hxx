@@ -45,6 +45,34 @@ namespace rsa {
 
 
 
+	auto modulus(auto a, auto b) {
+		return (a % b + b) % b;
+	}
+
+
+	template<std::signed_integral T>
+	std::pair<T, T> euklid_rec(T a, T b) {
+		if(b == 0) return {1,0};
+		T divisor = a / b;
+		T remainder = a % b;
+		auto [s, t] = euklid_rec(b, remainder);
+		return { t, s - (a / b) * t };
+	}
+
+
+	template<std::unsigned_integral Block>
+	std::pair<Block, Block> euklid(Block a, Block b, Block n) {
+		using S = std::make_signed_t<Block>;
+		// return euklid_rec<S>(a, b);
+		const auto [s, t] = euklid_rec<S>(a, b);
+		return {
+			s < 0 ? static_cast<S>(n) + s : s,
+			t < 0 ? static_cast<S>(n) + t : t,
+		};
+	}
+
+
+
 	template<std::unsigned_integral Block>
 	Block find_e(Block p, Block q) {
 		const auto mod = phi(p,q);
@@ -57,22 +85,11 @@ namespace rsa {
 
 
 	template<std::unsigned_integral Block>
-	Block find_d(Block p, Block q, Block e) {
-		const auto mod = phi(p,q);
-		for(Block d = 2; d < mod; ++d) {
-			if(((e * d) % mod) == 1) return d; 
-		}
-		throw std::runtime_error{"Cannot find d"};
-	}
-
-
-
-	template<std::unsigned_integral Block>
 	auto generate_keys(Block p, Block q) {
 
 		const auto e = find_e(p, q);
-		const auto d = find_d(p, q, e);
 		const auto n = p * q;
+		auto [d, x] = euklid(e, phi(p,q), phi(p,q));
 		const PrivateKey<Block> pri_key { .p = p, .q = q, .d = d };
 		const PublicKey<Block> pub_key { .n = n, .e = e };
 		return std::make_tuple(pri_key, pub_key);

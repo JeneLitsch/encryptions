@@ -10,14 +10,14 @@ int main() {
 	const auto decrypted = rsa::decrypt<std::uint64_t>(encrypted, pri_key);
 
 	std::cout << "===Private Key===\n";
-	std::cout << "p: " << pri_key.p << "\n";
-	std::cout << "q: " << pri_key.q << "\n";
-	std::cout << "d: " << pri_key.d << "\n";
+	std::cout << "p: " << static_cast<std::int64_t>(pri_key.p) << "\n";
+	std::cout << "q: " << static_cast<std::int64_t>(pri_key.q) << "\n";
+	std::cout << "d: " << static_cast<std::int64_t>(pri_key.d) << "\n";
 	std::cout << "\n";
 
 	std::cout << "===Public Key===\n";
-	std::cout << "n: " << pub_key.n << "\n";
-	std::cout << "e: " << pub_key.e << "\n";
+	std::cout << "n: " << static_cast<std::int64_t>(pub_key.n) << "\n";
+	std::cout << "e: " << static_cast<std::int64_t>(pub_key.e) << "\n";
 	std::cout << "\n";
 
 	std::cout << "===Data===\n";
