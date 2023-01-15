@@ -4,6 +4,7 @@
 #include <numeric>
 #include <tuple>
 #include <stdexcept>
+#include <optional>
 
 namespace rsa {
 	template<std::unsigned_integral Block>
@@ -85,9 +86,9 @@ namespace rsa {
 
 
 	template<std::unsigned_integral Block>
-	auto generate_keys(Block p, Block q) {
+	auto generate_keys(Block p, Block q, std::optional<Block> e_suggest = std::nullopt) {
 
-		const auto e = find_e(p, q);
+		const auto e = e_suggest.value_or(find_e(p, q));
 		const auto n = p * q;
 		auto [d, x] = euklid(e, phi(p,q), phi(p,q));
 		const PrivateKey<Block> pri_key { .p = p, .q = q, .d = d };

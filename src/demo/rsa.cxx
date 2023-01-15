@@ -2,12 +2,20 @@
 #include <iostream>
 
 int main() {
-	const auto p = 7;
-	const auto q = 11;
-	const auto [pri_key, pub_key] = rsa::generate_keys<std::uint64_t>(p, q);
-	const auto original = 42;
-	const auto encrypted = rsa::encrypt<std::uint64_t>(original, pub_key);
-	const auto decrypted = rsa::decrypt<std::uint64_t>(encrypted, pri_key);
+	std::uint64_t p = 7;
+	std::uint64_t q = 11;
+	std::uint64_t e = 11;
+
+
+	std::cout << "p = ";
+	std::cin >> p;
+	std::cout << "q = ";
+	std::cin >> q;
+	std::cout << "e = ";
+	std::cin >> e;
+	std::cout << "\n";
+
+	const auto [pri_key, pub_key] = rsa::generate_keys<std::uint64_t>(p, q, e);
 
 	std::cout << "===Private Key===\n";
 	std::cout << "p: " << static_cast<std::int64_t>(pri_key.p) << "\n";
@@ -20,10 +28,28 @@ int main() {
 	std::cout << "e: " << static_cast<std::int64_t>(pub_key.e) << "\n";
 	std::cout << "\n";
 
-	std::cout << "===Data===\n";
-	std::cout << "Original:  " << original << "\n";
-	std::cout << "Encrypted: " << encrypted << "\n";
-	std::cout << "Decrypted: " << decrypted << "\n";
-	std::cout << "\n";
+	while(true) {
+		std::uint64_t original = 42;
+		std::string mode = "";
+		
+		std::cout << "plaintext(number) = ";
+		std::cin >> original;
+		std::cout << "mode(e/d) = ";
+		std::cin >> mode;
+
+		if(mode == "e") {
+			const auto encrypted = rsa::encrypt<std::uint64_t>(original, pub_key);
+			std::cout << "Encrypted: " << "e(" << original << ") = " << encrypted << "\n";
+
+		}
+		if(mode == "d") {
+			const auto decrypted = rsa::decrypt<std::uint64_t>(original, pri_key);
+			std::cout << "Decrypted: " << "d(" << original << ") = " << decrypted << "\n";
+		}
+		std::cout << "\n";
+		std::cin.clear();
+		std::cin.ignore(100000, '\n');
+	}
+
 	return 0;
 }
