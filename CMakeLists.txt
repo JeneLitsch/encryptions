@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 include_directories(./src)
 
-add_executable(feistel src/demo/feistel.cxx)
-add_executable(rsa src/demo/rsa.cxx)
-add_executable(aes src/demo/aes.cxx)
-add_executable(modes src/demo/modes.cxx)
+add_executable(feistel src/feistel.cxx)
+add_executable(rsa src/rsa.cxx)
+add_executable(aes src/aes.cxx)
+add_executable(modes src/modes.cxx)

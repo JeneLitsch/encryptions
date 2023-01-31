@@ -1,4 +1,3 @@
-#pragma once
 #include <array>
 #include <cstdint>
 #include <algorithm>
@@ -153,4 +152,13 @@ namespace aes {
 		}
 		return {}; // TODO
 	}
+}
+
+
+
+int main() {
+	const aes::Key128 key = {0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0xA,0xB,0xC,0xD,0xE,0xF};
+	const aes::Block plain = {42,13,37};
+	const aes::Block cipher = aes::encrypt(plain, key);
+	return 0;
 }
