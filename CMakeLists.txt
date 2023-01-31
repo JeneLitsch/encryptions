@@ -11,3 +11,4 @@ include_directories(./src)
 
 add_executable(feistel src/demo/feistel.cxx)
 add_executable(rsa src/demo/rsa.cxx)
+add_executable(aes src/demo/aes.cxx)
