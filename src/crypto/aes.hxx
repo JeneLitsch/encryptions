@@ -102,7 +102,7 @@ namespace aes {
 
 
 	void mix_columns(Block & state) {
-		
+		// TODO
 	}
 
 
@@ -132,7 +132,7 @@ namespace aes {
 
 
 	Key128 derive_round_key(const Key128 & key) {
-		return key;
+		return key; // TODO
 	}
 
 
@@ -151,5 +151,6 @@ namespace aes {
 				round(grid, round_key);
 			}
 		}
+		return {}; // TODO
 	}
 }

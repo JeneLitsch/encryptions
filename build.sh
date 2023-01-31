@@ -6,3 +6,4 @@ cd ..
 mkdir ./bin
 mv ./build/bin/feistel ./bin/feistel
 mv ./build/bin/rsa ./bin/rsa
+mv ./build/bin/aes ./bin/aes
