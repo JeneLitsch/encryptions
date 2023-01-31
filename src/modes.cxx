@@ -82,6 +82,8 @@ struct hexed {
 	const T & value;
 };
 
+
+
 std::ostream & operator<<(std::ostream & out, const hexed<std::vector<std::uint64_t>> & hexed) {
 	bool first = true;
 	for(const auto & elem : hexed.value) {
@@ -93,10 +95,12 @@ std::ostream & operator<<(std::ostream & out, const hexed<std::vector<std::uint6
 }
 
 
+
 std::ostream & operator<<(std::ostream & out, const hexed<std::uint64_t> & hexed) {
 	out << "0x" << hexed.value;
 	return out;
 }
+
 
 
 template<typename T>
