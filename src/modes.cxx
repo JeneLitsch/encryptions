@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdint>
 #include <vector>
+#include "hexed.hxx"
 
 namespace crypto {
 	std::uint64_t xor_cipher(std::uint64_t key, std::uint64_t block) {
@@ -73,41 +74,6 @@ namespace crypto {
 		}
 		return out;
 	}
-}
-
-
-
-template<typename T>
-struct hexed {
-	const T & value;
-};
-
-
-
-std::ostream & operator<<(std::ostream & out, const hexed<std::vector<std::uint64_t>> & hexed) {
-	bool first = true;
-	for(const auto & elem : hexed.value) {
-		if(first) first = false;
-		else out << ", ";
-		out << "0x" << elem;
-	}
-	return out;
-}
-
-
-
-std::ostream & operator<<(std::ostream & out, const hexed<std::uint64_t> & hexed) {
-	out << "0x" << hexed.value;
-	return out;
-}
-
-
-
-template<typename T>
-hexed<T> hex(const T & x) {
-	return hexed<T>{
-		.value = x
-	};
 }
 
 
