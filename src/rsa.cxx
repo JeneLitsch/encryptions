@@ -5,8 +5,9 @@
 #include <stdexcept>
 #include <optional>
 #include <iostream>
+#include "rep_square.hxx"
 
-namespace rsa {
+namespace crypto::rsa {
 	template<std::unsigned_integral Block>
 	struct PublicKey {
 		Block n;
@@ -21,21 +22,6 @@ namespace rsa {
 		Block q;
 		Block d;
 	};
-
-
-
-	template<std::unsigned_integral Block>
-	Block repeated_squaring(Block plain, Block exp, Block mod) {
-		static constexpr auto BITS = std::numeric_limits<Block>::digits;
-		Block value = 1;
-		for(int i = BITS - 1; i >= 0; --i) {
-			const auto bit = static_cast<bool>((exp >> (i)) & 1);
-			value *= value;
-			if(bit) value *= plain;
-			value %= mod;
-		}
-		return value;
-	}
 
 
 
@@ -126,7 +112,7 @@ int main() {
 	std::cin >> e;
 	std::cout << "\n";
 
-	const auto [pri_key, pub_key] = rsa::generate_keys<std::uint64_t>(p, q, e);
+	const auto [pri_key, pub_key] = crypto::rsa::generate_keys<std::uint64_t>(p, q, e);
 
 	std::cout << "===Private Key===\n";
 	std::cout << "p: " << static_cast<std::int64_t>(pri_key.p) << "\n";
@@ -149,12 +135,12 @@ int main() {
 		std::cin >> mode;
 
 		if(mode == "e") {
-			const auto encrypted = rsa::encrypt<std::uint64_t>(original, pub_key);
+			const auto encrypted = crypto::rsa::encrypt<std::uint64_t>(original, pub_key);
 			std::cout << "Encrypted: " << "e(" << original << ") = " << encrypted << "\n";
 
 		}
 		if(mode == "d") {
-			const auto decrypted = rsa::decrypt<std::uint64_t>(original, pri_key);
+			const auto decrypted = crypto::rsa::decrypt<std::uint64_t>(original, pri_key);
 			std::cout << "Decrypted: " << "d(" << original << ") = " << decrypted << "\n";
 		}
 		std::cout << "\n";
